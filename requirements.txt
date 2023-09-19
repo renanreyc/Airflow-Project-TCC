@@ -1,0 +1,25 @@
+hdfs
+pandas
+fsspec
+
+# airflow
+psycopg2-binary
+apache-airflow-client
+
+#postgree
+psycopg2
+
+# read xls files
+pyxlsb
+xlrd
+openpyxl
+
+# parquet
+pyarrow
+fastparquet
+
+#azyre libs
+azure-storage-file-datalake
+
+# code libs
+apache-airflow
