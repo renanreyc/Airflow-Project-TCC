@@ -1,89 +1,124 @@
+# Flexible Data Pipeline with Airflow
+
+Este projeto representa uma pipeline de dados flexível desenvolvida com o uso do Apache Airflow. A principal finalidade dessa pipeline é oferecer a capacidade de adicionar ou remover novas fontes de dados de forma ágil, sem a necessidade de realizar mudanças significativas no código.
+
+- Pipeline Diagrama:
+
+::: mermaid
+flowchart LR
+    {init: {'theme': neutral' } }
+    classDef blue fill:navy,stroke:#fff,stroke-width:2px,color:#fff
+
+    START((START)):::blue
+    IDAG((INGESTION \n DAG))
+    UDAG((UPDATE \n DAG))
+    MDAG((MERGE \n DAG))
+    ODAF((REPORT \n DAG))
+    %% RU((re))
+    PURGE((PURGE))
+    END((END)):::blue
+
+    START --> IDAG
+    IDAG --> UDAG
+    IDAG -.->| NO NEW FILES | END
+    UDAG-.->| FILES OUTDATED | END
+    UDAG --> MDAG
+    MDAG -.-> |FAIL MERGE CRITERIAS|END
+    MDAG --> ODAF
+
+    ODAF --> END
+    START --> | EXECUTED EVERY MONTH| PURGE
+    PURGE --> END
+:::e
+
+- Imagem breve com exemplo de  fluxo:
+
 ![Alt text](img/pipeline_flow.png)
 
+## Pré-requisitos
 
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+### Docker
+Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Installation process
+### Python
 
-1. Create env folder
-2. Install python libs
-3. Start the enviroment
-4. Configure Services
-5. Deploy the DAGS in ariflow
-6. Final Considerations
+Certifique-se de ter o Python instalado na sua máquina. Você pode verificar se o Python está instalado executando o seguinte comando no terminal:
 
+```bash
+python --version
 
-### 1. Create env folder
-- WINDOWS: execute init.bat
-- LINUX: execute init.sh
+```
 
-### 2. Install python libs
+O projeto pode ter dependências Python específicas que precisam ser instaladas. Normalmente, essas dependências são listadas em um arquivo chamado requirements.txt. Para instalá-las, siga estas etapas:
+
+```bash
+cd seu-diretorio-de-projeto
+```
+
+Use o comando pip para instalar as dependências listadas no requirements.txt:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Start the enviroment
+### Azure
 
-! Notice the docker-compose requires a docker composer *v2.15.0* or superior !
+É necessário ter uma instância configurada do **Data Lake na Azure** para execução do projeto, abaixo temos algumas etapas gerais para essa configuração:
 
-```bash
-docker-compose up -d
-```
+> 1. Crie uma Conta da Azure: Se você ainda não tem uma conta da Azure, crie uma em https://azure.com.
+>
+> 2. Crie um Data Lake Storage Gen2: Na Azure, crie um Data Lake Storage Gen2 para armazenar seus dados.
+>
+> 3. Obtenha as Credenciais: Você precisará obter as credenciais de acesso (chave de conta ou uma conta de serviço SAS) para o Data Lake Storage Gen2.
+>
+> 4. Configure o Acesso: Certifique-se de configurar as permissões e os níveis de acesso apropriados para os dados no Data Lake.
+>
+> 5. Integre com o Projeto: No seu projeto, você precisará configurar as variáveis de ambiente ou os arquivos de configuração para incluir as informações de conexão, como a chave de conta ou a conta de serviço SAS, o nome do contêiner do Data Lake, etc.
 
-### 4. Configure Services
+## Instruções de Uso
 
-Prior to execute the pipelines first you need to configure the datalake and the airflow.
+1. Clone este repositório para a sua máquina:
 
-First you need to verify the enviroment parameters for DEV and HOMOLOG setup (stored in in the notebooks folder):
+   ```bash
+   git clone https://github.com/renanreyc/Airflow-Project-TCC.git
+   ```
+2. Navegue até o diretório clonado:
 
-- [Dev](notebooks/config-dev.ini)
-- [Homolog](notebooks/config-homolog.ini)
+    ```bash
+    cd seu-repositorio
+    ```
 
-Than execute the folowing notebooks. To start the jupyther go to notebook folder and start the jupyter and execute the following datalakes
+3. Execute o Docker Compose para iniciar os serviços:
 
-```
-cd notebooks/
-jupyter notebook --ip 0.0.0.0 --port 8897
-```
+    ```bash
+    docker-compose up -d
+    ```
 
-**4.1. Configure Datalake**
+4. Após a inicialização, você pode acessar a interface da web do Apache Airflow em http://localhost:8080.
 
-[Notebook](notebooks/configure_datalake.ipynb)
+5. Você também pode acessar o Apache Drill em http://localhost:8047 para executar consultas SQL em seus dados.
 
-**Configure Airflow**
+Para parar os serviços, execute:
 
-[Notebook](notebooks/configure_airflow.ipynb)
+    ```bash
+    docker-compose down
+    ```
 
-## 5. TODO
+Lembre-se de que este ambiente é voltado principalmente para desenvolvimento e testes. Certifique-se de ajustar as configurações de acordo com as necessidades do seu projeto.
 
-## 6. Final Considerations
+## Notas
 
-All done now you can use the pipeline
+> - Este ambiente usa as imagens Docker oficiais do Apache Airflow, PostgreSQL, Redis e Apache Drill. Certifique-se de verificar as versões e atualizações mais recentes dessas imagens, conforme necessário.
+>
+> - Certifique-se de revisar os recursos do seu sistema antes de iniciar o Docker Compose para garantir que você tenha memória, CPU e espaço em disco suficientes para executar os serviços.
+>
+> - Lembre-se de ajustar as variáveis de ambiente e outras configurações conforme necessário para seu ambiente específico.
+>
+> - Este README.md é apenas um guia básico. Consulte a documentação oficial dos serviços individuais para obter informações mais detalhadas.
 
-To stop the enviroment execute the following command
+## 📄 Licença
 
-```
-docker-compose down
-```
-
-## Software dependencies
-
-- Docker
-- Docker Compose 2.15
-- Python
-
-
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
-
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
