@@ -29,7 +29,7 @@ flowchart LR
     ODAF --> END
     START --> | EXECUTED EVERY MONTH| PURGE
     PURGE --> END
-:::e
+:::
 
 - Imagem breve com exemplo de  fluxo:
 
