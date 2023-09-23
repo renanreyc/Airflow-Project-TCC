@@ -2,11 +2,11 @@
 
 Este projeto representa uma pipeline de dados flexível desenvolvida com o uso do Apache Airflow. A principal finalidade dessa pipeline é oferecer a capacidade de adicionar ou remover novas fontes de dados de forma ágil, sem a necessidade de realizar mudanças significativas no código.
 
-- Pipeline Diagrama:
+- Diagrama construido com mermaid tool:
 
-::: mermaid
+```mermaid
 flowchart LR
-    {init: {'theme': neutral' } }
+
     classDef blue fill:navy,stroke:#fff,stroke-width:2px,color:#fff
 
     START((START)):::blue
@@ -29,7 +29,7 @@ flowchart LR
     ODAF --> END
     START --> | EXECUTED EVERY MONTH| PURGE
     PURGE --> END
-:::
+```
 
 - Imagem breve com exemplo de  fluxo:
 
