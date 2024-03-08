@@ -76,7 +76,7 @@ pip install -r requirements.txt
 >
 > 4. Configure o Acesso: Certifique-se de configurar as permissões e os níveis de acesso apropriados para os dados no Data Lake.
 >
-> 5. Integre com o Projeto: No seu projeto, você precisará configurar as variáveis de ambiente ou os arquivos de configuração para incluir as informações de conexão, como a chave de conta ou a conta de serviço SAS, o nome do contêiner do Data Lake, etc.
+> 5. Integre com o Projeto: No seu projeto, você precisará configurar as variáveis de ambiente ou os arquivos de configuração para incluir as informações de conexão, como a chave de conta ou a conta de serviço SAAS, o nome do contêiner do Data Lake, etc.
 
 ## Instruções de Uso
 
