@@ -72,7 +72,7 @@ pip install -r requirements.txt
 >
 > 2. Crie um Data Lake Storage Gen2: Na Azure, crie um Data Lake Storage Gen2 para armazenar seus dados.
 >
-> 3. Obtenha as Credenciais: Você precisará obter as credenciais de acesso (chave de conta ou uma conta de serviço SAS) para o Data Lake Storage Gen2.
+> 3. Obtenha as Credenciais: Você precisará obter as credenciais de acesso (chave de conta ou uma conta de serviço SAAS) para o Data Lake Storage Gen2.
 >
 > 4. Configure o Acesso: Certifique-se de configurar as permissões e os níveis de acesso apropriados para os dados no Data Lake.
 >
